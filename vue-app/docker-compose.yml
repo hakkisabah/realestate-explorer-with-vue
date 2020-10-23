@@ -1,0 +1,11 @@
+  version: '3.8'
+  services:
+    vue:
+      build:
+        dockerfile: Dockerfile
+        context: .
+      container_name: "vue-app"
+      restart: unless-stopped
+      ports :
+        - '8080:8080'
+      command: /bin/sh -c "npm run serve"
