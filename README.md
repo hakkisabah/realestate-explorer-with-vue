@@ -1,4 +1,4 @@
-# realestate-explorer-with-vue3
+# realestate-explorer-with-vue
 ### This project is under development
 
 # WHY ?
