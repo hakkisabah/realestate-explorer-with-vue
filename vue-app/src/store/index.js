@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from "axios";
-import api from "../modules/api"
+import {auth} from "../modules/auth";
+import {requests} from "../modules/requests";
 
 Vue.use(Vuex)
 
@@ -15,65 +15,35 @@ export default new Vuex.Store({
             state.token = token
         },
         setUserInfo(state, userInfo) {
+            localStorage.setItem('userInfo',JSON.stringify(userInfo))
             state.userInfo = userInfo
         },
-        clearToken(state){
+        clearToken(state) {
             localStorage.removeItem('token')
-          state.token = ""
+            localStorage.removeItem('userInfo')
+            state.token = ""
         }
     },
     actions: {
-        initAuth(VuexContext){
-            let token = localStorage.getItem('token')
-            if (token){
-                VuexContext.commit('setToken',token)
-                return true
-            }else{
-                return false
-            }
-
+        // auth module in actions..
+        ...auth,
+        ...requests,
+        autoLogout(Vuexcontext){
+            alert("Your session has been expired, you will redirect for authorization")
+            Vuexcontext.dispatch('logout')
         },
-        login(VuexContext, authData) {
-            return axios.post('http://localhost:8181/login',
-                {
-                    userName: authData.userName,
-                    pass: authData.pass,
-                }, {
-                    headers: {
-                        'Authorization': 'Baerer ' + VuexContext.state.token
-                    }
-                }).then(res => {
-                if (res.data.result) {
-                    VuexContext.commit('setToken', res.data.result)
-                    localStorage.setItem('token',res.data.result)
-                    return true
-                }else{
-                    return false
-                }
-            }).catch(()=>{
-                alert('Unknow error for login')
-            })
+        setUserInfo(VuexContext, userInfo) {
+            VuexContext.commit('setUserInfo', userInfo)
         },
-        api(VuexContext, to, payload) {
-            return api(to, VuexContext.state.token, payload)
-        },
-        setUserInfo(VuexContext,userInfo){
-            VuexContext.commit('setUserInfo',userInfo)
-        },
-
-        logout(VuexContext){
-            VuexContext.commit('clearToken')
-        }
     },
     getters: {
         isAuthenticated(state) {
             return state.token !== ''
         },
-        getUserInfo(state){
-            return state.userInfo
+
+        getUserInfo(state) {
+            return state.userInfo ?? localStorage.getItem('userInfo')
         }
     },
-    modules: {
-        api
-    }
+    modules: {}
 })

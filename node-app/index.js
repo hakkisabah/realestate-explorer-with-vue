@@ -1,12 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const db = require("./serverside/db")
-let postRequest = require('./serverside/postRequest')
+let postRequest = require('./serverside/requests/postRequest')
 const cookieParser = require("cookie-parser");
 
 // init db
 db.init()
-
 
 const server = express();
 server.use(bodyParser.urlencoded({ extended: true,limit:'20mb' }))

@@ -1,6 +1,7 @@
 <template>
-  <div class="form-signin col-md-4 m-auto mt-5">
-    <form action="/login" method="post" accept-charset="utf-8" @submit.prevent="onSubmit">
+  <div>
+  <div v-show="isUser" class="form-signin col-md-4 m-auto mt-5">
+    <form>
       <h2 class="text-center">Log in</h2>
       <div class="form-group">
         <input type="text" v-model="authForm.userName" class="form-control" placeholder="Username" required="required">
@@ -9,24 +10,29 @@
         <input type="password" v-model="authForm.pass" class="form-control" placeholder="Password" required="required">
       </div>
       <div class="form-group">
-        <button type="submit" class="mt-3 text-center btn btn-primary btn-block">Log in</button>
+        <button type="submit" class="mt-3 text-center btn btn-primary btn-block" @click.prevent="onSubmit">Log in</button>
       </div>
     </form>
-    <p class="mt-5 mb-3 text-center"><a href="#">Create an Account</a></p>
+    <p class="mt-5 mb-3 text-center"><a @click.prevent="isUser = false" href="" >Create an Account</a></p>
+  </div>
+  <checkemployee @isReturnToLogin="isUser = $event" v-show="!isUser" />
   </div>
 </template>
 
 <script>
-
+import checkemployee from "./Containers/auth/checkemployee";
 export default {
   name: "Auth",
+  components:{
+    checkemployee
+  },
   data(){
     return{
       authForm:{
         userName: null,
         pass:null
       },
-      isUser:false
+      isUser:true,
     }
   },
   methods:{
@@ -34,7 +40,7 @@ export default {
       this.$store.dispatch('login',{...this.authForm})
       .then(r=>{
         if (r !== false){
-          this.$router.push("/")
+          this.$router.push("/userarea")
         }else{
           alert('wrong login info')
         }

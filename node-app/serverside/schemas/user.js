@@ -1,14 +1,14 @@
 let Schema = require('mongoose').Schema
 
-let users = new Schema({
+let user = new Schema({
     userName: { type: String, unique: true },
     userMail: { type: String, unique: true },
-    employeerId: { type: String, unique: true },
+    employeeId: { type: String, unique: true },
     pass: { type: String },
     userPostCode: { type: String },
-    createdAt: { type: Date },
-    updatedAt: { type: Date },
+    createdAt: { type: Date,default:new Date()},
+    updatedAt: { type: Date,default:new Date() },
     role: { type: String }
 })
 
-module.exports = users
+module.exports = user

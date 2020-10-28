@@ -1,7 +1,11 @@
 # realestate-explorer-with-vue
 ### This project is under development
 
-## First
+## Requirements
+- smtp mail account information
+- Docker
+- .env.local file (  required to change the name .env.local.example file in node-app folder )
+
 
 ### How to
 
@@ -15,20 +19,26 @@ and use following command
 
 -`docker-compose up --build`
 
-Its ready to https://localhost:8080
+Its ready to http://localhost:8080
+
+After that you can check on your browser http://localhost:8081 address for mongodb data
+ 
 
 #### Login Info
 
 User name : hakkisabah
 pass : test
 
-## Note 
-If you want to run without docker you should be change this:
+## Developed What ?
 
-change api addres what you want following files ( line number here ):
+- Login system
+- Input validator
+- Post code verifier
+- Employee id creator
+- After the employee id and send information to he/she mail for complete registration
+- env files getting compatible
 
-/realestate-explorer-with-vue/vue-app/src/store/index.js : 37
-/realestate-explorer-with-vue/vue-app/src/modules/api.js : 3
-/realestate-explorer-with-vue/node-app/serverside/db.js  : 1
-
-an also navigate menus , maybe see apointments page its page here vue but not configured this on node.js, so getting error and  its may secureliy behaviour
+#Configuration
+- After the change name example of .env.local ( in node-app folder ) file enter the smtp information 
+- All required configurations included .env files in the apps folder ( For example, in the node-app folde have .env file and you can change JWT expire time)
+ 
